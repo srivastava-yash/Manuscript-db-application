@@ -58,8 +58,8 @@ class DB:
             self.conn.commit()
         except mysql.connector.Error as err:
             print(err)
-            return False
-        return True
+            return None
+        self.cursor.getlastrowid()
 
     """
     function to fetch results from the database
