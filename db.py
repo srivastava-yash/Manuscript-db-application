@@ -3,6 +3,8 @@ import sys
 from mysql.connector import MySQLConnection, Error, errorcode, FieldType
 import getpass
 from dbconfig import read_db_config
+import db_utility
+import constants
 
 class DB:
     def __init__(self):
@@ -45,21 +47,29 @@ class DB:
         value_list - name of columns to insert data to
         values - tuple of values to be inserted
     """
-    def insert(self, table_name, value_list, values):
+    def insert_if_not_exists(self, table_name, value_list, values):
         num_of_entities = len(value_list.split(','))
-        query = f"INSERT INTO {table_name} {value_list} VALUES ("
-        for i in range(num_of_entities):
-            query += "%s,"
-        query = query[:-1]
-        query += ")"
-        print(query)
-        try:
-            self.cursor.execute(query, values)
-            self.conn.commit()
-        except mysql.connector.Error as err:
-            print(err)
-            return None
-        self.cursor.getlastrowid()
+        select_query = db_utility.get_where_query(table_name, value_list, values)
+        print("select", select_query)
+        results  = self.fetchAll(select_query)
+        if len(results) == 0:
+            print("if")
+            query = f"INSERT INTO {table_name} ( {value_list} ) VALUES ("
+            for i in range(num_of_entities):
+                query += "%s,"
+            query = query[:-1]
+            query += ")"
+            print(query)
+            try:
+                self.cursor.execute(query, values)
+                self.conn.commit()
+            except mysql.connector.Error as err:
+                print(err)
+                return None
+            return self.cursor.getlastrowid()
+
+        print(results)
+        return results[0][0]
 
     """
     function to fetch results from the database
@@ -77,6 +87,6 @@ class DB:
 
 if __name__ == "__main__":
     db = DB()
-    #db.insert("Author", "(fname, lname, email)", ("yash", "srivastava", "yash.184040@gmail.com"))
+    print(db.insert_if_not_exists("Person", constants.PERSON_VALUE_LIST, ("Cardi", "B", "cardi.b@gmail.com")))
     #print(db.fetchAll("SELECT * from Person"))
     db.close_connection()
