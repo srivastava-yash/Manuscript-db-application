@@ -34,9 +34,49 @@ class DB:
                 print(err)
                 sys.exit(1)
 
+    # Utility function to close the connection to database
     def close_connection(self):
         self.conn.close()
 
+    """
+    function to insert data into a given table
+    params: 
+        table_name - name of the table
+        value_list - name of columns to insert data to
+        values - tuple of values to be inserted
+    """
+    def insert(self, table_name, value_list, values):
+        num_of_entities = len(value_list.split(','))
+        query = f"INSERT INTO {table_name} {value_list} VALUES ("
+        for i in range(num_of_entities):
+            query += "%s,"
+        query = query[:-1]
+        query += ")"
+        print(query)
+        try:
+            self.cursor.execute(query, values)
+            self.conn.commit()
+        except mysql.connector.Error as err:
+            print(err)
+            return False
+        return True
+
+    """
+    function to fetch results from the database
+    params: 
+        query - select query to get the results
+    """
+    def fetchAll(self, query):
+        try:
+            self.cursor.execute(query)
+            results = self.cursor.fetchall()
+        except mysql.connector.Error as err:
+            print(err)
+            return list()
+        return results
+
 if __name__ == "__main__":
     db = DB()
+    #db.insert("Author", "(fname, lname, email)", ("yash", "srivastava", "yash.184040@gmail.com"))
+    #print(db.fetchAll("SELECT * from Person"))
     db.close_connection()
