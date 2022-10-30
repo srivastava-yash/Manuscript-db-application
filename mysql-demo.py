@@ -91,7 +91,6 @@ def mysqldemo():
             mycursor = conn.cursor(buffered=True)
         else:
             print('connection failed.')
-            `
 
     except mysql.connector.Error as err:
         print('connection failed somehow')
