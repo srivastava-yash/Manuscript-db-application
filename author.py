@@ -5,6 +5,7 @@ class author:
 
     def __init__(self, db):
         self.db = db
+        self.current_author = None
 
     def is_athor(self, person_id):
         select_query = f"SELECT * from {constants.AUTHOR} where Person.idPerson = {person_id}"
@@ -39,6 +40,7 @@ class author:
 
         status_author = self.get_status(author_id)
         login_str += status_author
+        self.current_author = author_id
 
         return login_str
 
@@ -52,12 +54,41 @@ class author:
 
         return status_author
 
+    def submit_manuscript(self, input_list):
+        if self.current_author is None:
+            return constants.AUTHOR_DNE
+
+        icode_value_tuple = tuple([input_list[3]])
+        icode_id = self.db.insert_if_not_exists(
+            constants.ICODE, constants.ICODE_VALUE_LIST, icode_value_tuple
+        )
+
+        print(icode_id)
+
+        affiliation_value_tuple = tuple([input_list[2]])
+        affiliation_id = self.db.insert_if_not_exists(
+            constants.AFFILIATION, constants.AFFILIATION_VALUE_LIST, affiliation_value_tuple
+        )
+
+        manuscript_title = input_list[1]
+        status = 1
+
+        manuscript_value_tuple = tuple(
+            [str(status), str(icode_id), manuscript_title, str(self.current_author)]
+        )
+        manuscript_id = self.db.insert_if_not_exists(
+            constants.MANUSCRIPT, constants.MANUSCRIPT_VALUE_LIST, manuscript_value_tuple
+        )
+
+        return manuscript_id
 
 
 if __name__ == "__main__":
     db = DB()
-    author_utility = author(db)
-    # print(author_utility.register_author("Cardi", "B", "cardi.b@gmail.com", "Hollywood"))
-    print(author_utility.login(1))
+    author = author(db)
+    # print(author.register_author("Cardi", "B", "cardi.b@gmail.com", "Hollywood"))
+    print(author.login(1))
+    input_list = list(["submit", "DBMS", "1", "db"])
+    print(author.submit_manuscript(input_list))
     db.close_connection()
 
