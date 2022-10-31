@@ -6,6 +6,12 @@ class author:
     def __init__(self, db):
         self.db = db
 
+    def is_athor(self, person_id):
+        select_query = f"SELECT * from {constants.AUTHOR} where Person.idPerson = {person_id}"
+        results = self.db.fetchAll(select_query)
+
+        return len(results) == 1
+
     def register_author(self, fname, lname, email, affiliation):
         person_value_tuple = tuple([fname, lname, email])
         person_id = self.db.insert_if_not_exists(constants.PERSON, constants.PERSON_VALUE_LIST, person_value_tuple)
@@ -18,7 +24,7 @@ class author:
         author_value_tuple = tuple([str(affiliation_id), str(person_id)])
         author_id = self.db.insert_if_not_exists(constants.AUTHOR, constants.AUTHOR_VALUE_LIST, author_value_tuple)
 
-        return author_id
+        return person_id
 
     def login(self, author_id):
         author_select_query = f"SELECT * from Author where idAuthor = {author_id}"
