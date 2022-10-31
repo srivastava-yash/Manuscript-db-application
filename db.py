@@ -72,6 +72,45 @@ class DB:
         return results[0][0]
 
     """
+    function to update data into a given table
+    params: 
+        table_name - name of the table
+        value_list - name of columns to insert data to
+        values - tuple of values to be inserted
+    """
+    def update_if_not_exists(self, table_name, value_list , set_value_list ,values, set_values):
+        num_of_set_entities = len(set_values.split(',')) 
+        set_value_list = list(set_value_list.split(','))
+        num_of_entities = len(values.split(',')) 
+        select_query = db_utility.get_where_query(table_name, value_list, values)
+        print("select", select_query)
+        results  = self.fetchAll(select_query)
+        if len(results) > 0:
+            query = f"UPDATE {table_name} SET"
+            for i in range(num_of_set_entities):
+                query += " " + set_value_list[i] + "=" + set_values[i] 
+            query += f" WHERE "
+            value_list = value_list.split(",")
+            for i in range(len(value_list)):
+                if values[i].isnumeric():
+                    value = int(values[i])
+                    query += (value_list[i] + "=" + values[i] + " and ")
+                else:
+                    query += (value_list[i] + "=" + "'" + values[i] + "'" + " and ")
+
+            query = query[:-4]
+            print(query)
+            try:
+                self.cursor.execute(query, values)
+                self.conn.commit()
+            except mysql.connector.Error as err:
+                print(err)
+                return None
+            return self.cursor.getlastrowid()
+        else:
+            return None
+
+    """
     function to fetch results from the database
     params: 
         query - select query to get the results
