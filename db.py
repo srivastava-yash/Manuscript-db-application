@@ -50,16 +50,13 @@ class DB:
     def insert_if_not_exists(self, table_name, value_list, values):
         num_of_entities = len(value_list.split(','))
         select_query = db_utility.get_where_query(table_name, value_list, values)
-        print("select", select_query)
         results  = self.fetchAll(select_query)
         if len(results) == 0:
-            print("if")
             query = f"INSERT INTO {table_name} ( {value_list} ) VALUES ("
             for i in range(num_of_entities):
                 query += "%s,"
             query = query[:-1]
             query += ")"
-            print(query)
             try:
                 self.cursor.execute(query, values)
                 self.conn.commit()
