@@ -81,10 +81,11 @@ class DB:
     def update_if_not_exists(self, table_name, value_list , set_value_list ,values, set_values):
         num_of_set_entities = len(set_values.split(',')) 
         set_value_list = list(set_value_list.split(','))
-        num_of_entities = len(values.split(',')) 
+        # num_of_entities = len(value_list.split(',')) 
         select_query = db_utility.get_where_query(table_name, value_list, values)
         print("select", select_query)
         results  = self.fetchAll(select_query)
+        # value_list = list(value_list.split(','))
         if len(results) > 0:
             query = f"UPDATE {table_name} SET"
             for i in range(num_of_set_entities):
@@ -123,6 +124,48 @@ class DB:
             print(err)
             return list()
         return results
+    """
+    function to execute query on the database
+    params: 
+        query - select query to get the results
+    """
+    def query(self, query):
+        try:
+            self.cursor.execute(query)
+            self.conn.commit()
+        except mysql.connector.Error as err:
+            print(err)
+            return None
+    """
+    function to execute query helpful in deriving final function
+    params: 
+        query - select query to get the results
+    """
+    def intermediate_query(self, query):
+        try:
+            result = self.cursor.execute(query)
+            return result
+        except mysql.connector.Error as err:
+            print(err)
+            return None
+    """
+    function to execute commands on database
+    params: 
+        queries - set of queries to execute
+    """
+    def exceute_commands(self, queries):
+        # Execute every command from the input file
+        for query in queries:
+            # This will skip and report errors
+            # For example, if the tables do not yet exist, this will skip over
+            # the DROP TABLE commands
+            try:
+                self.cursor.execute(query)
+                self.conn.commit()
+            except mysql.connector.Error as err:
+                print(err)
+                return None
+        return True
 
 if __name__ == "__main__":
     db = DB()

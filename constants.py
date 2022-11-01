@@ -21,3 +21,5 @@ MANUSCRIPT_FEEDBACK_VALUE_LIST = "manuscriptid , reviewer_id"
 MANUSCRIPT_VALUE_LIST = "idManuscript"
 MANUSCRIPT_SET_STATUS_VALUE_LIST = "status"
 
+# MANUSCRIPT_SCHEDULE_LIST = "idManuscript,status,(SELECT SUM(ending_page_number - begining_page_number) FROM Manuscript where issue "
+MANUSCRIPT_ISSUE_LIST = "issue,status"
