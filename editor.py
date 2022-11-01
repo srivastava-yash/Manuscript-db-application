@@ -16,12 +16,12 @@ class editor:
         manuscript_feedback_value_tuple = tuple([manuscriptid , reviewer_id])
         assign_reviewer_id = self.db.insert_if_not_exists(constants.MANUSCRIPT_FEEDBACK, constants.MANUSCRIPT_FEEDBACK_VALUE_LIST, manuscript_feedback_value_tuple)
         manuscript_status = "2"
-        self.db.update_if_not_exists(constants.MANUSCRIPT,constants.MANUSCRIPT_VALUE_LIST,constants.MANUSCRIPT_SET_STATUS_VALUE_LIST,manuscriptid,manuscript_status)
+        self.db.update_if_not_exists(constants.MANUSCRIPT,constants.MANUSCRIPT_ID_VALUE_LIST,constants.MANUSCRIPT_SET_STATUS_VALUE_LIST,manuscriptid,manuscript_status)
         return assign_reviewer_id
 
     def reject(self,manuscriptid):
         manuscript_status = "3"
-        self.db.update_if_not_exists(constants.MANUSCRIPT,constants.MANUSCRIPT_VALUE_LIST,constants.MANUSCRIPT_SET_STATUS_VALUE_LIST,manuscriptid,manuscript_status)
+        self.db.update_if_not_exists(constants.MANUSCRIPT,constants.MANUSCRIPT_ID_VALUE_LIST,constants.MANUSCRIPT_SET_STATUS_VALUE_LIST,manuscriptid,manuscript_status)
         return manuscriptid
 
     def accept(self,manuscriptid):
@@ -47,6 +47,7 @@ class editor:
         if total_pages < 100:
             publish_query = f"UPDATE Manuscript SET status = {manuscript_status} where idManuscript = {manuscriptid} AND issue = {issue}"
         self.db.query(publish_query)
+        self.db.update_if_not_exists(constants.MANUSCRIPT,constants.MANUSCRIPT_ID_VALUE_LIST,constants.MANUSCRIPT_SET_STATUS_VALUE_LIST,manuscriptid,manuscript_status)
         return manuscriptid
 
 
