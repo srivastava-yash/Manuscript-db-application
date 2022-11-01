@@ -15,6 +15,7 @@ REVIEWER_INTEREST = "Reviewer_interest"
 MANUSCRIPT_STATUS = "manuscript_status"
 AUTHOR_ORDER = "Author_order"
 ICODE = "Icode"
+PUBLICATION_ISSUE = "Publication_Issue"
 
 ## command constants
 REGISTER_AUTHOR = "register author"
@@ -50,6 +51,7 @@ REVIEWER_VALUE_LIST = "Affiliation_idAffiliation,Person_idPerson"
 REVIEWER_INTEREST_VALUE_LIST = "Reviewer_idReviewer,Icode_idIcode"
 AUTHOR_ORDER_VALUE_LIST = "Manuscript_idManuscript,Author_idAuthor,order"
 EDITOR_VALUE_LIST = "Person_idPerson"
+PUBLICATION_VALUE_LIST = "year,period,publication_status"
 
 ## Error Messages
 AUTHOR_NOT_LOGGED_IN = "Author not logged in / Please login"

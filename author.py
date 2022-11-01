@@ -90,13 +90,6 @@ class author:
             constants.ICODE, constants.ICODE_VALUE_LIST, icode_value_tuple
         )
 
-        print(icode_id)
-
-        affiliation_value_tuple = tuple([input_list[2]])
-        affiliation_id = self.db.insert_if_not_exists(
-            constants.AFFILIATION, constants.AFFILIATION_VALUE_LIST, affiliation_value_tuple
-        )
-
         manuscript_title = input_list[1]
         status = 1
 
