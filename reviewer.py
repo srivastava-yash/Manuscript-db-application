@@ -6,6 +6,21 @@ class reviewer:
     def __init__(self, db):
         self.db = db
         self.current_reviewer = None
+
+    def is_reviewer(self, person_id):
+        select_query = f"SELECT * from {constants.REVIEWER} where Person_idPerson = {person_id}"
+        results = self.db.fetchAll(select_query)
+
+        return len(results) == 1
+
+
+    def get_reviewer_id(self, person_id):
+        select_query = f"SELECT * from {constants.REVIEWER} where Person_idPerson = {person_id}"
+        results = self.db.fetchAll(select_query)
+
+        return results[0][0]
+
+
     def register_reviewer(self, fname, lname, icodes):
         person_name_tuple_list = tuple([fname, lname])
         person_id = self.db.insert_if_not_exists(
@@ -76,6 +91,9 @@ class reviewer:
         if result is None:
             return constants.SERVER_ERROR
         return "Scores Updated Successfully"
+
+    def logout(self):
+        self.current_reviewer = None
 
 
 if __name__ == "__main__":

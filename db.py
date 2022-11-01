@@ -65,7 +65,6 @@ class DB:
                 return None
             return self.cursor.getlastrowid()
 
-        print(results)
         return results[0][0]
 
     """
