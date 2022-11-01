@@ -113,7 +113,6 @@ class DB:
     params: 
         query - select query to get the results
     """
-
     def fetchAll(self, query):
         try:
             self.cursor.execute(query)
