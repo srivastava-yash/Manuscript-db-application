@@ -79,7 +79,6 @@ class DB:
     def update_if_exists(self, table_name, value_list, set_value_list, values, set_values):
         num_of_set_entities = len(set_values.split(',')) 
         set_value_list = list(set_value_list.split(','))
-        num_of_entities = len(values.split(',')) 
         select_query = db_utility.get_where_query(table_name, value_list, values)
         print("select", select_query)
         results  = self.fetchAll(select_query)
@@ -125,9 +124,9 @@ class DB:
     """
     function to execute query on the database
     params: 
-        query - select query to get the results
+        query - query to get the results
     """
-    def query(self, query):
+    def execute_query(self, query):
         try:
             self.cursor.execute(query)
             self.conn.commit()
