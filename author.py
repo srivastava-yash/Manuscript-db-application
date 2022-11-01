@@ -56,7 +56,7 @@ class author:
 
     def submit_manuscript(self, input_list):
         if self.current_author is None:
-            return constants.AUTHOR_DNE
+            return constants.AUTHOR_NOT_LOGGED_IN
 
         icode_value_tuple = tuple([input_list[3]])
         icode_id = self.db.insert_if_not_exists(
