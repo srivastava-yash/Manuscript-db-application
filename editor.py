@@ -6,6 +6,12 @@ class editor:
 
     def __init__(self, db):
         self.db = db
+    
+    def is_editor(self, person_id):
+        select_query = f"SELECT * from {constants.EDITOR} where Person.idPerson = {person_id}"
+        results = self.db.fetchAll(select_query)
+
+        return len(results) == 1
 
     def retrieve_manuscript_status(self, query):
         results  = self.db.fetchAll(query)
@@ -29,7 +35,7 @@ class editor:
         total_reviews_query = f"SELECT * FROM Manuscript_feedback WHERE idManuscript={manuscriptid}"
         total_reviews = self.db.intermediate_query(total_reviews_query)
         if len(total_reviews) > 3:
-            accept_query = f"UPDATE Manuscript SET status=4 WHERE idManuscript={manuscriptid}"
+            accept_query = f"UPDATE Manuscript SET status={manuscript_status} WHERE idManuscript={manuscriptid}"
             self.db.query(accept_query)
         # self.db.update_if_not_exists(constants.MANUSCRIPT,constants.MANUSCRIPT_VALUE_LIST,constants.MANUSCRIPT_SET_STATUS_VALUE_LIST,manuscriptid,manuscript_status)
         return manuscriptid
