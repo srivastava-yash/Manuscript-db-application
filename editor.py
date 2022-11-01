@@ -13,6 +13,41 @@ class editor:
 
         return len(results) == 1
 
+    def get_status(self):
+        status_select_query = f"Select title, status_name from {constants.MANUSCRIPT} join {constants.MANUSCRIPT_STATUS} " \
+                              f" on status = idmanuscript_status ORDER BY status, idManuscript"
+        status_results = self.db.fetchAll(status_select_query)
+
+        status = "title | status" + constants.EOD
+        for status_result in status_results:
+            status += status_result[0] + status_results[1] + constants.EOD
+
+        return status
+
+
+    def login(self, person_id):
+        editor_select_query = f"SELECT * FROM {constants.PERSON} where idPerson = {person_id}"
+        editor_results = self.db.fetchAll(editor_select_query)
+
+        login_str = "fname | lname" + constants.EOD
+        login_str += editor_results[0][1] + editor_results[0][2] + constants.EOD
+
+        login_str += self.get_status()
+        return login_str
+
+    def register_editor(self, fname, lname):
+        person_tuple = tuple([fname, lname])
+        person_id = self.db.insert_if_not_exists(
+            constants.PERSON, constants.PERSON_NAMES_VALUE_LIST, person_tuple
+        )
+
+        editor_tuple = tuple(str(person_id))
+        editor_id = self.db.insert_if_not_exists(
+            constants.EDITOR, constants.EDITOR_VALUE_LIST, editor_tuple
+        )
+
+        return person_id
+
     def assign_reviewer(self, manuscriptid , reviewer_id):
         manuscript_feedback_value_tuple = tuple([manuscriptid , reviewer_id])
         assign_reviewer_id = self.db.insert_if_not_exists(

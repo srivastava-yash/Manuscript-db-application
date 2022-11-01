@@ -5,6 +5,7 @@ File to store the static variables in one place
 ## Table names
 PERSON = "Person"
 AUTHOR = "Author"
+EDITOR = "Editor"
 AFFILIATION = "Affiliation"
 MANUSCRIPT_FEEDBACK = "Manuscript_feedback"
 MANUSCRIPT = "Manuscript"
@@ -18,6 +19,7 @@ ICODE = "Icode"
 ## command constants
 REGISTER_AUTHOR = "register author"
 REGISTER_REVIEWER = "register reviewer"
+REGISTER_EDITOR = "register editor"
 LOGIN = "login"
 SUBMIT = "submit"
 ACCEPT = "accept"
@@ -25,6 +27,10 @@ REJECT = "reject"
 EXIT = "exit"
 QUIT = "quit"
 STATUS = "status"
+ASSIGN = "assign"
+SCHEDULE = "schedule"
+PUBLISH = "publish"
+RESET = "reset"
 
 ## Value lists
 PERSON_VALUE_LIST = "fname,lname,email"
@@ -43,6 +49,7 @@ MANUSCRIPT_VALUE_LIST = "status,Icode_idIcode,title,primary_author"
 REVIEWER_VALUE_LIST = "Affiliation_idAffiliation,Person_idPerson"
 REVIEWER_INTEREST_VALUE_LIST = "Reviewer_idReviewer,Icode_idIcode"
 AUTHOR_ORDER_VALUE_LIST = "Manuscript_idManuscript,Author_idAuthor,order"
+EDITOR_VALUE_LIST = "Person_idPerson"
 
 ## Error Messages
 AUTHOR_NOT_LOGGED_IN = "Author not logged in / Please login"
