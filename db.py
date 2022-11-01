@@ -72,10 +72,12 @@ class DB:
     function to update data into a given table
     params: 
         table_name - name of the table
-        value_list - name of columns to insert data to
-        values - tuple of values to be inserted
+        value_list - name of columns which are used in where condition
+        set_value_list - name of columns which are used in set condition
+        values - tuple of values in where condition
+        set_values - tuple of values to be set
     """
-    def update_if_not_exists(self, table_name, value_list , set_value_list ,values, set_values):
+    def update_if_exists(self, table_name, value_list, set_value_list, values, set_values):
         num_of_set_entities = len(set_values.split(',')) 
         set_value_list = list(set_value_list.split(','))
         num_of_entities = len(values.split(',')) 
