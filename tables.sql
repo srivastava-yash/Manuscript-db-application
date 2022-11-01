@@ -37,16 +37,11 @@ DROP TABLE IF EXISTS `F006JPH_db`.`Author` ;
 
 CREATE TABLE IF NOT EXISTS `F006JPH_db`.`Author` (
   `idAuthor` INT NOT NULL AUTO_INCREMENT,
-  `Affiliation_idAffiliation` INT NOT NULL,
+  `Affiliation_idAffiliation` INT NULL,
   `Person_idPerson` INT NOT NULL,
-  PRIMARY KEY (`idAuthor`, `Affiliation_idAffiliation`, `Person_idPerson`),
+  PRIMARY KEY (`idAuthor`),
   INDEX `fk_Author_Affiliation1_idx` (`Affiliation_idAffiliation` ASC) VISIBLE,
   INDEX `fk_Author_Person1_idx` (`Person_idPerson` ASC) VISIBLE,
-  CONSTRAINT `fk_Author_Affiliation1`
-    FOREIGN KEY (`Affiliation_idAffiliation`)
-    REFERENCES `F006JPH_db`.`Affiliation` (`idAffiliation`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `fk_Author_Person1`
     FOREIGN KEY (`Person_idPerson`)
     REFERENCES `F006JPH_db`.`Person` (`idPerson`)
@@ -62,7 +57,7 @@ DROP TABLE IF EXISTS `F006JPH_db`.`manuscript_status` ;
 
 CREATE TABLE IF NOT EXISTS `F006JPH_db`.`manuscript_status` (
   `idmanuscript_status` INT NOT NULL AUTO_INCREMENT,
-  `status` VARCHAR(45) NULL,
+  `status_name` VARCHAR(45) NULL,
   PRIMARY KEY (`idmanuscript_status`))
 ENGINE = InnoDB;
 
@@ -122,8 +117,8 @@ CREATE TABLE IF NOT EXISTS `F006JPH_db`.`Manuscript` (
   `date_received` DATETIME DEFAULT CURRENT_TIMESTAMP,
   `title` VARCHAR(45) NULL,
   `primary_author` INT NOT NULL,
-  `issue` INT NOT NULL,
-  `Editor_idEditor` INT NOT NULL,
+  `issue` INT NULL,
+  `Editor_idEditor` INT NULL,
   `begining_page_number` INT NULL,
   `ending_page_number` INT NULL,
   `issue_order` INT NULL,
