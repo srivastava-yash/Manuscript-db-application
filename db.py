@@ -113,6 +113,7 @@ class DB:
     params: 
         query - select query to get the results
     """
+
     def fetchAll(self, query):
         try:
             self.cursor.execute(query)
@@ -121,6 +122,51 @@ class DB:
             print(err)
             return list()
         return results
+
+    """
+    function to execute query on the database
+    params: 
+        query - select query to get the results
+    """
+    def query(self, query):
+        try:
+            self.cursor.execute(query)
+            self.conn.commit()
+        except mysql.connector.Error as err:
+            print(err)
+            return None
+
+    """
+    function to execute query helpful in deriving final function
+    params: 
+        query - select query to get the results
+    """
+    def intermediate_query(self, query):
+        try:
+            result = self.cursor.execute(query)
+            return result
+        except mysql.connector.Error as err:
+            print(err)
+            return None
+
+    """
+    function to execute commands on database
+    params: 
+        queries - set of queries to execute
+    """
+    def exceute_commands(self, queries):
+        # Execute every command from the input file
+        for query in queries:
+            # This will skip and report errors
+            # For example, if the tables do not yet exist, this will skip over
+            # the DROP TABLE commands
+            try:
+                self.cursor.execute(query)
+                self.conn.commit()
+            except mysql.connector.Error as err:
+                print(err)
+                return None
+        return True
 
 if __name__ == "__main__":
     db = DB()
