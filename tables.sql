@@ -96,7 +96,7 @@ DROP TABLE IF EXISTS `F006JPH_db`.`Editor` ;
 CREATE TABLE IF NOT EXISTS `F006JPH_db`.`Editor` (
   `idEditor` INT NOT NULL AUTO_INCREMENT,
   `Person_idPerson` INT NOT NULL,
-  PRIMARY KEY (`idEditor`, `Person_idPerson`),
+  PRIMARY KEY (`idEditor`),
   INDEX `fk_Editor_Person1_idx` (`Person_idPerson` ASC) VISIBLE,
   CONSTRAINT `fk_Editor_Person1`
     FOREIGN KEY (`Person_idPerson`)
@@ -172,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `F006JPH_db`.`Author_order` (
   `Manuscript_idManuscript` INT NOT NULL,
   `Author_idAuthor` INT NOT NULL,
   `order` INT NULL,
-  PRIMARY KEY (`idAuthor_order`, `Manuscript_idManuscript`, `Author_idAuthor`),
+  PRIMARY KEY (`idAuthor_order`),
   INDEX `fk_Author_order_Manuscript1_idx` (`Manuscript_idManuscript` ASC) VISIBLE,
   INDEX `fk_Author_order_Author1_idx` (`Author_idAuthor` ASC) VISIBLE,
   CONSTRAINT `fk_Author_order_Manuscript1`
@@ -197,7 +197,7 @@ CREATE TABLE IF NOT EXISTS `F006JPH_db`.`Reviewer` (
   `idReviewer` INT NOT NULL AUTO_INCREMENT,
   `Affiliation_idAffiliation` INT NOT NULL,
   `Person_idPerson` INT NOT NULL,
-  PRIMARY KEY (`idReviewer`, `Affiliation_idAffiliation`, `Person_idPerson`),
+  PRIMARY KEY (`idReviewer`),
   INDEX `fk_Reviewer_Affiliation1_idx` (`Affiliation_idAffiliation` ASC) VISIBLE,
   INDEX `fk_Reviewer_Person1_idx` (`Person_idPerson` ASC) VISIBLE,
   CONSTRAINT `fk_Reviewer_Affiliation1`

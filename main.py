@@ -110,6 +110,7 @@ if __name__ == "__main__":
                 print(constants.INVALID_COMMAND, "Please enter unique id of reviewer also")
             else:
                 main.reviewer.resign(input_arr[1])
+                print("Thank you for your service.")
 
         else:
             print("Unknown Command. Please enter the right command or type 'quit' or 'exit' to exit program")

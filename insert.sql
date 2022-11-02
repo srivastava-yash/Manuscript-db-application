@@ -14,7 +14,7 @@ select * from Person;
 
 INSERT INTO Affiliation (name)
 VALUES
-("Dartmouth College"),
+("Dartmouth_College"),
 ("Hollywood");
 
 select * from Affiliation;
@@ -36,24 +36,17 @@ select * from Editor;
 
 INSERT INTO Reviewer (Affiliation_idAffiliation, Person_idPerson)
 VALUES
-(1 , 1),
-(1 , 2),
-(2, 3),
-(2,13),
-(2,14);
+(1,1),
+(1,2),
+(2,3);
 select * from Reviewer;
-
-
-INSERT INTO Manuscript_feedback(Manuscript_idManuscript, Reviewer_idReviewer)
-VALUES
-(1,1);
 
 
 INSERT INTO manuscript_status(status_name)
 VALUES
 ("submitted"),
-("under review"), 
-("rejected"), 
+("under review"),
+("rejected"),
 ("accepted"),
 ("in typesetting"),
 ("scheduled for publication"),
@@ -77,16 +70,22 @@ VALUES
 ("hci"),
 ("db");
 
+INSERT INTO Manuscript(status, Icode_idIcode, title, primary_author, Editor_idEditor)
+VALUES
+(1, 1, "deep learning", 1, 1);
+
+
+INSERT INTO Manuscript_feedback(Manuscript_idManuscript, Reviewer_idReviewer)
+VALUES
+(1,1);
+
 select * from Icode;
 
 INSERT INTO Reviewer_interest(Reviewer_idReviewer, Icode_idIcode)
 VALUES
 (1, 1),
 (1, 2),
-(1, 3),
-(12,1),
-(13,1),
-(13,12);
+(1, 3);
 
 -- SET SQL_SAFE_UPDATES = 0;
 -- update Reviewer_interest set Icode_idIcode = 1 where idReviewer_interest = 1;
@@ -94,10 +93,6 @@ VALUES
 
 select * from Reviewer_interest;
 
-
-INSERT INTO Manuscript(status, Icode_idIcode, title, primary_author, issue, Editor_idEditor)
-VALUES
-(1, 1, "deep learning", 1, 1, 1);
 
 -- INSERT INTO Manuscript(status, Icode_idIcode, title, primary_author, issue, Editor_idEditor)
 -- VALUES
