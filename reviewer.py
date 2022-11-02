@@ -76,7 +76,7 @@ class reviewer:
             return constants.REVIEWER_NOT_LOGGED_IN
 
         manuscript_select_query = f"SELECT * FROM {constants.MANUSCRIPT_FEEDBACK} " \
-                                  f"where Manuscript_idManuscipt = {manuscript_id} " \
+                                  f"where Manuscript_idManuscript = {manuscript_id} " \
                                   f"and Reviewer_idReviewer = {self.current_reviewer}"
         manuscript_feedback_results = self.db.fetchAll(manuscript_select_query)
 
@@ -85,7 +85,7 @@ class reviewer:
 
         result = self.db.update_if_exists(
             constants.MANUSCRIPT_FEEDBACK, constants.MANUSCRIPT_FEEDBACK_MAN_ID_VALUE_LIST,
-            constants.MANUSCRIPT_FEEDBACK_SET_SCORES_LIST, str(manuscript_id), tuple(scores)
+            constants.MANUSCRIPT_FEEDBACK_SET_SCORES_LIST, tuple([str(manuscript_id), str(self.current_reviewer)]), tuple(scores)
         )
 
         if result is None:

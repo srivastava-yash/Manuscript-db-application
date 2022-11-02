@@ -55,6 +55,7 @@ class editor:
             return -1
 
         reviewer_id = reviewer_results[0][0]
+        print(reviewer_id)
         manuscript_feedback_value_tuple = tuple([str(manuscriptid) , str(reviewer_id)])
         assign_reviewer_id = self.db.insert_if_not_exists(
             constants.MANUSCRIPT_FEEDBACK, constants.MANUSCRIPT_FEEDBACK_VALUE_LIST,

@@ -83,7 +83,8 @@ class DB:
         if len(results) > 0:
             query = f"UPDATE {table_name} SET"
             for i in range(num_of_set_entities):
-                query += " " + set_value_list[i] + "=" + set_values[i] 
+                query += " " + set_value_list[i] + "=" + set_values[i] + ","
+            query = query[:-1]
             query += f" WHERE "
             value_list = value_list.split(",")
             for i in range(len(value_list)):
@@ -94,8 +95,9 @@ class DB:
                     query += (value_list[i] + "=" + "'" + values[i] + "'" + " and ")
 
             query = query[:-4]
+            query+=";"
             try:
-                self.cursor.execute(query, values)
+                self.cursor.execute(query)
                 self.conn.commit()
             except mysql.connector.Error as err:
                 return None
