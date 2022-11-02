@@ -92,6 +92,10 @@ class reviewer:
             return constants.SERVER_ERROR
         return "Scores Updated Successfully"
 
+    def resign(self, person_id):
+        delete_query = f"DELETE from {constants.REVIEWER} where Perdon_idPerson = {person_id}"
+        self.db.execute_query(delete_query)
+
     def logout(self):
         self.current_reviewer = None
 

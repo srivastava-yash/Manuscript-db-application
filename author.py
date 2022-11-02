@@ -33,11 +33,7 @@ class author:
 
         return person_id
 
-    def login(self, author_id):
-        author_select_query = f"SELECT * from Author where idAuthor = {author_id}"
-        author_results = self.db.fetchAll(author_select_query)
-        person_id = author_results[0][2]
-
+    def login(self, author_id, person_id):
         person_select_query = f"SELECT * from Person where idPerson={person_id}"
         person_results = self.db.fetchAll(person_select_query)
 
@@ -51,6 +47,10 @@ class author:
         return login_str
 
     def get_status(self, author_id):
+        if author_id is None and self.current_author is None:
+            return ""
+        if author_id is None:
+            author_id = self.current_author
         manuscript_select_query = f"SELECT * from Manuscript where primary_author = {author_id}"
         manuscript_results = self.db.fetchAll(manuscript_select_query)
 
@@ -88,13 +88,6 @@ class author:
         icode_value_tuple = tuple([input_list[3]])
         icode_id = self.db.insert_if_not_exists(
             constants.ICODE, constants.ICODE_VALUE_LIST, icode_value_tuple
-        )
-
-        print(icode_id)
-
-        affiliation_value_tuple = tuple([input_list[2]])
-        affiliation_id = self.db.insert_if_not_exists(
-            constants.AFFILIATION, constants.AFFILIATION_VALUE_LIST, affiliation_value_tuple
         )
 
         manuscript_title = input_list[1]

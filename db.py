@@ -158,11 +158,11 @@ class DB:
             # This will skip and report errors
             # For example, if the tables do not yet exist, this will skip over
             # the DROP TABLE commands
+            query += ";"
             try:
                 self.cursor.execute(query)
                 self.conn.commit()
             except mysql.connector.Error as err:
-                print(err)
                 return None
         return True
 
