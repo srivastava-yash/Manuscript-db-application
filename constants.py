@@ -32,6 +32,7 @@ ASSIGN = "assign"
 SCHEDULE = "schedule"
 PUBLISH = "publish"
 RESET = "reset"
+RESIGN = "resign"
 
 ## Value lists
 PERSON_VALUE_LIST = "fname,lname,email"

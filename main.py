@@ -105,6 +105,12 @@ if __name__ == "__main__":
             main.editor.reset()
             print("Database Reset")
 
+        elif input_str.startswith(constants.RESIGN):
+            if len(input_arr) < 2:
+                print(constants.INVALID_COMMAND, "Please enter unique id of reviewer also")
+            else:
+                main.reviewer.resign(input_arr[1])
+
         else:
             print("Unknown Command. Please enter the right command or type 'quit' or 'exit' to exit program")
 
