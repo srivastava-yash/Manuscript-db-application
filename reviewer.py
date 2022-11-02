@@ -6,6 +6,21 @@ class reviewer:
     def __init__(self, db):
         self.db = db
         self.current_reviewer = None
+
+    def is_reviewer(self, person_id):
+        select_query = f"SELECT * from {constants.REVIEWER} where Person_idPerson = {person_id}"
+        results = self.db.fetchAll(select_query)
+
+        return len(results) == 1
+
+
+    def get_reviewer_id(self, person_id):
+        select_query = f"SELECT * from {constants.REVIEWER} where Person_idPerson = {person_id}"
+        results = self.db.fetchAll(select_query)
+
+        return results[0][0]
+
+
     def register_reviewer(self, fname, lname, icodes):
         person_name_tuple_list = tuple([fname, lname])
         person_id = self.db.insert_if_not_exists(
@@ -18,12 +33,12 @@ class reviewer:
         )
 
         for icode in icodes:
-            icode_value_tuple = tuple([icode])
+            icode_value_tuple = tuple([str(icode)])
             icode_id = self.db.insert_if_not_exists(
                 constants.ICODE, constants.ICODE_VALUE_LIST, icode_value_tuple
             )
 
-            reviewer_interest_value_tuple = tuple([reviewer_id, icode_id])
+            reviewer_interest_value_tuple = tuple([str(reviewer_id), str(icode_id)])
             ri_id = self.db.insert_if_not_exists(
                 constants.REVIEWER_INTEREST, constants.REVIEWER_INTEREST_VALUE_LIST, reviewer_interest_value_tuple
             )
@@ -61,7 +76,7 @@ class reviewer:
             return constants.REVIEWER_NOT_LOGGED_IN
 
         manuscript_select_query = f"SELECT * FROM {constants.MANUSCRIPT_FEEDBACK} " \
-                                  f"where Manuscript_idManuscipt = {manuscript_id} " \
+                                  f"where Manuscript_idManuscript = {manuscript_id} " \
                                   f"and Reviewer_idReviewer = {self.current_reviewer}"
         manuscript_feedback_results = self.db.fetchAll(manuscript_select_query)
 
@@ -70,12 +85,19 @@ class reviewer:
 
         result = self.db.update_if_exists(
             constants.MANUSCRIPT_FEEDBACK, constants.MANUSCRIPT_FEEDBACK_MAN_ID_VALUE_LIST,
-            constants.MANUSCRIPT_FEEDBACK_SET_SCORES_LIST, str(manuscript_id), tuple(scores)
+            constants.MANUSCRIPT_FEEDBACK_SET_SCORES_LIST, tuple([str(manuscript_id), str(self.current_reviewer)]), tuple(scores)
         )
 
         if result is None:
             return constants.SERVER_ERROR
         return "Scores Updated Successfully"
+
+    def resign(self, person_id):
+        delete_query = f"DELETE from {constants.REVIEWER} where Perdon_idPerson = {person_id}"
+        self.db.execute_query(delete_query)
+
+    def logout(self):
+        self.current_reviewer = None
 
 
 if __name__ == "__main__":

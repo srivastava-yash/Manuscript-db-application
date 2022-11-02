@@ -61,11 +61,9 @@ class DB:
                 self.cursor.execute(query, values)
                 self.conn.commit()
             except mysql.connector.Error as err:
-                print(err)
                 return None
             return self.cursor.getlastrowid()
 
-        print(results)
         return results[0][0]
 
     """
@@ -78,16 +76,15 @@ class DB:
         set_values - tuple of values to be set
     """
     def update_if_exists(self, table_name, value_list, set_value_list, values, set_values):
-        num_of_set_entities = len(set_values.split(',')) 
+        num_of_set_entities = len(set_values)
         set_value_list = list(set_value_list.split(','))
-        num_of_entities = len(values.split(',')) 
         select_query = db_utility.get_where_query(table_name, value_list, values)
-        print("select", select_query)
         results  = self.fetchAll(select_query)
         if len(results) > 0:
             query = f"UPDATE {table_name} SET"
             for i in range(num_of_set_entities):
-                query += " " + set_value_list[i] + "=" + set_values[i] 
+                query += " " + set_value_list[i] + "=" + set_values[i] + ","
+            query = query[:-1]
             query += f" WHERE "
             value_list = value_list.split(",")
             for i in range(len(value_list)):
@@ -98,12 +95,11 @@ class DB:
                     query += (value_list[i] + "=" + "'" + values[i] + "'" + " and ")
 
             query = query[:-4]
-            print(query)
+            query+=";"
             try:
-                self.cursor.execute(query, values)
+                self.cursor.execute(query)
                 self.conn.commit()
             except mysql.connector.Error as err:
-                print(err)
                 return None
             return self.cursor.getlastrowid()
         else:
@@ -119,9 +115,39 @@ class DB:
             self.cursor.execute(query)
             results = self.cursor.fetchall()
         except mysql.connector.Error as err:
-            print(err)
             return list()
         return results
+
+    """
+    function to execute query on the database
+    params: 
+        query - query to get the results
+    """
+    def execute_query(self, query):
+        try:
+            self.cursor.execute(query)
+            self.conn.commit()
+        except mysql.connector.Error as err:
+            return None
+
+    """
+    function to execute commands on database
+    params: 
+        queries - set of queries to execute
+    """
+    def exceute_commands(self, queries):
+        # Execute every command from the input file
+        for query in queries:
+            # This will skip and report errors
+            # For example, if the tables do not yet exist, this will skip over
+            # the DROP TABLE commands
+            query += ";"
+            try:
+                self.cursor.execute(query)
+                self.conn.commit()
+            except mysql.connector.Error as err:
+                return None
+        return True
 
 if __name__ == "__main__":
     db = DB()
