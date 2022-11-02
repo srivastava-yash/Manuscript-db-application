@@ -20,7 +20,7 @@ if __name__ == "__main__":
 
         if input_str == constants.EXIT or input_str == constants.QUIT:
             break
-        input_str.replace('"', '')
+        input_str = input_str.replace('"', '')
         input_arr = input_str.split(" ")
 
         ## register author
