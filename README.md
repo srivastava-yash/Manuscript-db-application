@@ -109,9 +109,9 @@ accept_reject_manuscript function is used for assigning accept and reject alongw
 > `reject 2 3 2 1 0`
 
 > RESIGN
-> `resign`
+> `resign unique_id`
 > Sample Input Command
-> `resign`
+> `resign 10`
 
 
 
