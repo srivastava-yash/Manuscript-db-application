@@ -61,7 +61,6 @@ class DB:
                 self.cursor.execute(query, values)
                 self.conn.commit()
             except mysql.connector.Error as err:
-                print(err)
                 return None
             return self.cursor.getlastrowid()
 
@@ -77,10 +76,9 @@ class DB:
         set_values - tuple of values to be set
     """
     def update_if_exists(self, table_name, value_list, set_value_list, values, set_values):
-        num_of_set_entities = len(set_values.split(',')) 
+        num_of_set_entities = len(set_values)
         set_value_list = list(set_value_list.split(','))
         select_query = db_utility.get_where_query(table_name, value_list, values)
-        print("select", select_query)
         results  = self.fetchAll(select_query)
         if len(results) > 0:
             query = f"UPDATE {table_name} SET"
@@ -96,12 +94,10 @@ class DB:
                     query += (value_list[i] + "=" + "'" + values[i] + "'" + " and ")
 
             query = query[:-4]
-            print(query)
             try:
                 self.cursor.execute(query, values)
                 self.conn.commit()
             except mysql.connector.Error as err:
-                print(err)
                 return None
             return self.cursor.getlastrowid()
         else:
@@ -117,7 +113,6 @@ class DB:
             self.cursor.execute(query)
             results = self.cursor.fetchall()
         except mysql.connector.Error as err:
-            print(err)
             return list()
         return results
 
@@ -131,20 +126,6 @@ class DB:
             self.cursor.execute(query)
             self.conn.commit()
         except mysql.connector.Error as err:
-            print(err)
-            return None
-
-    """
-    function to execute query helpful in deriving final function
-    params: 
-        query - select query to get the results
-    """
-    def intermediate_query(self, query):
-        try:
-            result = self.cursor.execute(query)
-            return result
-        except mysql.connector.Error as err:
-            print(err)
             return None
 
     """

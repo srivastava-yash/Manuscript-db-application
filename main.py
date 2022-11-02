@@ -87,13 +87,16 @@ if __name__ == "__main__":
                 print(main.reviewer.accept_reject_manuscript(input_arr[1], scores))
             else:
                 if input_str.startswith(constants.ACCEPT):
-                    print("Manuscript accepted, ID:", main.editor.accept(input_arr[1]))
+                    print(main.editor.accept(input_arr[1]))
                 else:
-                    print("Manuscript rejected, ID:", main.editor.reject(input_arr[1]))
+                    print(main.editor.reject(input_arr[1]))
 
         elif input_str.startswith(constants.ASSIGN):
-            main.editor.assign_reviewer(input_arr[1],input_arr[2])
-            print("Manuscript Assigned")
+            output = main.editor.assign_reviewer(input_arr[1],input_arr[2])
+            if output == -1:
+                print("Cannot find reviewer")
+            else:
+                print("Manuscript Assigned")
 
         elif input_str.startswith(constants.SCHEDULE):
             print("Manuscript scheduled, ID:", main.editor.schedule(input_arr[1], input_arr[2]))

@@ -33,12 +33,12 @@ class reviewer:
         )
 
         for icode in icodes:
-            icode_value_tuple = tuple([icode])
+            icode_value_tuple = tuple([str(icode)])
             icode_id = self.db.insert_if_not_exists(
                 constants.ICODE, constants.ICODE_VALUE_LIST, icode_value_tuple
             )
 
-            reviewer_interest_value_tuple = tuple([reviewer_id, icode_id])
+            reviewer_interest_value_tuple = tuple([str(reviewer_id), str(icode_id)])
             ri_id = self.db.insert_if_not_exists(
                 constants.REVIEWER_INTEREST, constants.REVIEWER_INTEREST_VALUE_LIST, reviewer_interest_value_tuple
             )
